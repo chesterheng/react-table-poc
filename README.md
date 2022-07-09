@@ -1,5 +1,6 @@
 # React Table POC
 
+- [Live Demo](https://react-table-poc-production.up.railway.app/)
 - Collection of hooks to build powerful tables and data grid experiences
 - Do not render any markup or styles
 - A table utility and not a table component
@@ -33,10 +34,8 @@
 - [date-fns](https://date-fns.org/)
 - [React Table Sticky](https://github.com/guillaumejasmin/react-table-sticky)
 - [styled components](https://styled-components.com/)
+- [Ant Design](https://ant.design/docs/react/introduce)
 
 ## Tools
 
 - [Random Data Generator](https://mockaroo.com/)
-
-## Reference 
-- https://www.youtube.com/watch?v=YwP4NAZGskg&list=PLC3y8-rFHvwgWTSrDiwmUsl4ZvipOw9Cz

@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
-import { useTable, useSortBy, useGlobalFilter, useFilters } from "react-table";
+import { useTable, useGlobalFilter, useFilters } from "react-table";
 import MOCK_DATA from "./MOCK-DATA.json";
-import { COLUMNS, GROUPED_COLUMNS } from "./columns";
+import { COLUMNS } from "./columns";
 import GlobalFilter from "./GlobalFilter";
 import ColumnFilter from "./ColumnFilter";
 import "./table.css";
 
 export const FilteringTable = () => {
-  const columns = useMemo(() => GROUPED_COLUMNS, []);
+  const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => MOCK_DATA, []);
   const defaultColumn = useMemo(
     () => ({
@@ -23,15 +23,13 @@ export const FilteringTable = () => {
       defaultColumn,
     },
     useFilters,
-    useGlobalFilter,
-    useSortBy
+    useGlobalFilter
   );
 
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    footerGroups,
     rows,
     prepareRow,
     state,
@@ -48,15 +46,8 @@ export const FilteringTable = () => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <th {...column.getHeaderProps()}>
                   {column.render("Header")}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? " 🔽"
-                        : " 🔼"
-                      : ""}
-                  </span>
                   <div>{column.canFilter ? column.render("Filter") : null}</div>
                 </th>
               ))}
@@ -77,15 +68,6 @@ export const FilteringTable = () => {
             );
           })}
         </tbody>
-        <tfoot>
-          {footerGroups.map((footerGroup) => (
-            <tr {...footerGroup.getFooterGroupProps()}>
-              {footerGroup.headers.map((column) => (
-                <td {...column.getFooterProps()}>{column.render("Footer")}</td>
-              ))}
-            </tr>
-          ))}
-        </tfoot>
       </table>
     </>
   );

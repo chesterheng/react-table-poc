@@ -1,11 +1,15 @@
 import React, { useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
+import {
+  SortAscendingOutlined,
+  SortDescendingOutlined,
+} from "@ant-design/icons";
 import MOCK_DATA from "./MOCK-DATA.json";
-import { COLUMNS, GROUPED_COLUMNS } from "./columns";
+import { COLUMNS } from "./columns";
 import "./table.css";
 
 export const SortingTable = () => {
-  const columns = useMemo(() => GROUPED_COLUMNS, []);
+  const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => MOCK_DATA, []);
 
   const tableInstance = useTable(
@@ -16,14 +20,10 @@ export const SortingTable = () => {
     useSortBy
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    footerGroups,
-    rows,
-    prepareRow,
-  } = tableInstance;
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    tableInstance;
+
+  const firstPageRows = rows.slice(0, 20);
 
   return (
     <table {...getTableProps()}>
@@ -34,7 +34,16 @@ export const SortingTable = () => {
               <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                 {column.render("Header")}
                 <span>
-                  {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}
+                  {" "}
+                  {column.isSorted ? (
+                    column.isSortedDesc ? (
+                      <SortDescendingOutlined />
+                    ) : (
+                      <SortAscendingOutlined />
+                    )
+                  ) : (
+                    ""
+                  )}
                 </span>
               </th>
             ))}
@@ -42,7 +51,7 @@ export const SortingTable = () => {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
+        {firstPageRows.map((row) => {
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>
@@ -53,15 +62,6 @@ export const SortingTable = () => {
           );
         })}
       </tbody>
-      <tfoot>
-        {footerGroups.map((footerGroup) => (
-          <tr {...footerGroup.getFooterGroupProps()}>
-            {footerGroup.headers.map((column) => (
-              <td {...column.getFooterProps()}>{column.render("Footer")}</td>
-            ))}
-          </tr>
-        ))}
-      </tfoot>
     </table>
   );
 };

@@ -23,6 +23,10 @@ tfoot td {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
-  background-color: #4caf50;
+  background-color: #1890ff;
   color: white;
+}
+
+table th input {
+  color: rgba(0, 0, 0, 0.85);
 }

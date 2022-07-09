@@ -1,37 +1,18 @@
 import React, { useMemo } from "react";
-import {
-  useTable,
-  useSortBy,
-  useGlobalFilter,
-  useFilters,
-  usePagination,
-} from "react-table";
+import { useTable, usePagination } from "react-table";
 import MOCK_DATA from "./MOCK-DATA.json";
-import { GROUPED_COLUMNS } from "./columns";
-import GlobalFilter from "./GlobalFilter";
-import ColumnFilter from "./ColumnFilter";
+import { COLUMNS } from "./columns";
 import "./table.css";
 
 export const PaginationTable = () => {
-  const columns = useMemo(() => GROUPED_COLUMNS, []);
+  const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => MOCK_DATA, []);
-  const defaultColumn = useMemo(
-    () => ({
-      Filter: ColumnFilter,
-    }),
-    []
-  );
-
   const tableInstance = useTable(
     {
       columns,
       data,
-      defaultColumn,
       initialState: { pageIndex: 0 },
     },
-    useFilters,
-    useGlobalFilter,
-    useSortBy,
     usePagination
   );
 
@@ -39,40 +20,29 @@ export const PaginationTable = () => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    footerGroups,
     page,
     nextPage,
     previousPage,
     canNextPage,
     canPreviousPage,
-    pageOptions,
     gotoPage,
     pageCount,
     setPageSize,
     prepareRow,
     state,
-    setGlobalFilter,
   } = tableInstance;
 
-  const { globalFilter, pageIndex, pageSize } = state;
+  const { pageIndex, pageSize } = state;
 
   return (
     <>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <th {...column.getHeaderProps()}>
                   {column.render("Header")}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? " 🔽"
-                        : " 🔼"
-                      : ""}
-                  </span>
                   <div>{column.canFilter ? column.render("Filter") : null}</div>
                 </th>
               ))}
@@ -93,15 +63,6 @@ export const PaginationTable = () => {
             );
           })}
         </tbody>
-        <tfoot>
-          {footerGroups.map((footerGroup) => (
-            <tr {...footerGroup.getFooterGroupProps()}>
-              {footerGroup.headers.map((column) => (
-                <td {...column.getFooterProps()}>{column.render("Footer")}</td>
-              ))}
-            </tr>
-          ))}
-        </tfoot>
       </table>
       <div>
         <span>

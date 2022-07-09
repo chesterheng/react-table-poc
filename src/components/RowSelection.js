@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 import { useTable, useRowSelect } from "react-table";
 import MOCK_DATA from "./MOCK-DATA.json";
-import { COLUMNS, GROUPED_COLUMNS } from "./columns";
+import { COLUMNS } from "./columns";
 import { Checkbox } from "./Checkbox";
 import "./table.css";
 
 export const RowSelection = () => {
-  const columns = useMemo(() => GROUPED_COLUMNS, []);
+  const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => MOCK_DATA, []);
 
   const tableInstance = useTable(
@@ -35,13 +35,12 @@ export const RowSelection = () => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    footerGroups,
     rows,
     prepareRow,
     selectedFlatRows,
   } = tableInstance;
 
-  const firstPageRows = rows.slice(0, 10);
+  const firstPageRows = rows.slice(0, 15);
 
   return (
     <>
@@ -69,15 +68,6 @@ export const RowSelection = () => {
             );
           })}
         </tbody>
-        <tfoot>
-          {footerGroups.map((footerGroup) => (
-            <tr {...footerGroup.getFooterGroupProps()}>
-              {footerGroup.headers.map((column) => (
-                <td {...column.getFooterProps()}>{column.render("Footer")}</td>
-              ))}
-            </tr>
-          ))}
-        </tfoot>
       </table>
       <pre>
         <code>

@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
 import MOCK_DATA from "./MOCK-DATA.json";
-import { COLUMNS, GROUPED_COLUMNS } from "./columns";
+import { GROUPED_COLUMNS } from "./columns";
 import "./table.css";
 
 export const BasicTable = () => {
@@ -22,6 +22,8 @@ export const BasicTable = () => {
     prepareRow,
   } = tableInstance;
 
+  const firstPageRows = rows.slice(0, 15);
+
   return (
     <table {...getTableProps()}>
       <thead>
@@ -34,7 +36,7 @@ export const BasicTable = () => {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
+        {firstPageRows.map((row) => {
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>

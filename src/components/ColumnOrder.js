@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
 import { useTable, useColumnOrder } from "react-table";
 import MOCK_DATA from "./MOCK-DATA.json";
-import { COLUMNS, GROUPED_COLUMNS } from "./columns";
+import { COLUMNS } from "./columns";
 import "./table.css";
 
 export const ColumnOrder = () => {
-  const columns = useMemo(() => GROUPED_COLUMNS, []);
+  const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => MOCK_DATA, []);
 
   const tableInstance = useTable(
@@ -20,12 +20,13 @@ export const ColumnOrder = () => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    footerGroups,
     rows,
     prepareRow,
     setColumnOrder,
   } = tableInstance;
 
+  const firstPageRows = rows.slice(0, 15);
+  
   const changeOrder = () => {
     setColumnOrder([
       "id",
@@ -51,7 +52,7 @@ export const ColumnOrder = () => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {firstPageRows.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
@@ -64,15 +65,6 @@ export const ColumnOrder = () => {
             );
           })}
         </tbody>
-        <tfoot>
-          {footerGroups.map((footerGroup) => (
-            <tr {...footerGroup.getFooterGroupProps()}>
-              {footerGroup.headers.map((column) => (
-                <td {...column.getFooterProps()}>{column.render("Footer")}</td>
-              ))}
-            </tr>
-          ))}
-        </tfoot>
       </table>
     </>
   );
